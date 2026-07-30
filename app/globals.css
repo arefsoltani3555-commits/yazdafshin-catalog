@@ -3821,6 +3821,88 @@ img[src*="yazd-afshin-logo"] {
   font-size: 0.86rem;
   line-height: 2.05;
 }
+.finalAboutContactWrap {
+  position: relative;
+  z-index: 2;
+  margin-top: 46px;
+}
+.finalAboutContactPanel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.85fr);
+  gap: 28px;
+  align-items: center;
+  padding: 28px;
+  border: 1px solid rgba(202, 168, 94, 0.16);
+  border-radius: 28px;
+  background:
+    linear-gradient(135deg, rgba(202, 168, 94, 0.05), transparent 48%),
+    rgba(255, 255, 255, 0.02);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.28);
+}
+.finalAboutContactEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.finalAboutContactEyebrow::before {
+  content: "";
+  width: 34px;
+  height: 1px;
+  background: linear-gradient(to left, var(--gold), transparent);
+}
+.finalAboutContactText h3 {
+  margin-top: 14px;
+  color: var(--gold-light);
+  font-size: clamp(1.5rem, 3vw, 2.15rem);
+  font-weight: 900;
+}
+.finalAboutContactList {
+  margin-top: 22px;
+  display: grid;
+  gap: 16px;
+}
+.finalAboutContactItem {
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.015);
+}
+.finalAboutContactItem strong {
+  display: block;
+  color: var(--gold-light);
+  font-size: 0.95rem;
+}
+.finalAboutContactItem p {
+  margin-top: 8px;
+  color: var(--text-soft);
+  font-size: 0.92rem;
+  line-height: 2;
+}
+.finalAboutQrCard {
+  display: flex;
+  justify-content: center;
+}
+.finalAboutQrFrame {
+  width: min(100%, 360px);
+  padding: 16px;
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at top, rgba(202, 168, 94, 0.08), transparent 45%),
+    linear-gradient(180deg, rgba(12, 12, 12, 0.98), rgba(5, 5, 5, 0.98));
+  border: 1px solid rgba(202, 168, 94, 0.14);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.33);
+}
+.finalAboutQrImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 18px;
+  filter: invert(1) contrast(1.06);
+  background: #050505;
+}
 @media (max-width: 900px) {
   .finalAbout {
     padding: 90px 0;
@@ -3847,6 +3929,16 @@ img[src*="yazd-afshin-logo"] {
     border-radius: 15px;
     text-align: center;
   }
+  .finalAboutContactPanel {
+    grid-template-columns: 1fr;
+    padding: 22px;
+  }
+  .finalAboutContactText {
+    text-align: center;
+  }
+  .finalAboutContactEyebrow {
+    justify-content: center;
+  }
 }
 @media (max-width: 600px) {
   .finalAboutFeatures {
@@ -3857,6 +3949,13 @@ img[src*="yazd-afshin-logo"] {
   }
   .finalAboutContent h2 {
     font-size: 2.5rem;
+  }
+  .finalAboutContactItem p {
+    font-size: 0.88rem;
+  }
+  .finalAboutQrFrame {
+    padding: 12px;
+    border-radius: 22px;
   }
 }
 .finalCollections {

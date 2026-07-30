@@ -362,7 +362,7 @@ function buildSpecRows(product: ProductDetailsClientProps["product"], colorCount
     {
       icon: "weave" as FeatureIcon,
       label: "نوع بافت",
-      value: product.collection ? "دورو (دو طرف قابل استفاده)" : product.category,
+      value: product.category || "مخمل",
     },
   ];
 }

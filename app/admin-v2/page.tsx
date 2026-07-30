@@ -5,6 +5,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
+import AdminAuthGate from "@/components/AdminAuthGate"
+import AdminLogoutButton from "@/components/AdminLogoutButton"
 import { supabase } from "@/lib/supabase"
 
 const menuItems = [
@@ -257,6 +259,7 @@ setSelectedColors((current) => current.filter((item) => item !== color));
 }
 
 return (
+<AdminAuthGate>
 <main
 dir="rtl"
 className="min-h-screen bg-[#050505] text-white"
@@ -321,6 +324,7 @@ active
 <p className="mt-1 text-[10px] text-white/35">
 مدیر سیستم
 </p>
+<AdminLogoutButton className="mt-4 min-h-10 w-full rounded-xl border border-[#d5b466]/25 bg-[#d5b466]/10 px-3 text-xs font-bold text-[#f1d799] transition hover:border-[#d5b466]/60 hover:bg-[#d5b466]/15" />
 </div>
 </div>
 </div>
@@ -855,6 +859,7 @@ className="min-h-11 flex-[1.5] rounded-xl bg-gradient-to-r from-[#b4883b] to-[#d
 </div>
 )}
 </main>
+</AdminAuthGate>
 );
 }
 

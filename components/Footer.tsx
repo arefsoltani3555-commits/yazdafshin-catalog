@@ -17,8 +17,7 @@ export default function Footer() {
           <div>
             <h2>نساجی یزد افشین</h2>
             <p>
-              تولیدکننده انواع روفرشی، پتوفرش و زیرسفره‌ای با نیم قرن تجربه در
-              صنعت نساجی ایران.
+              تولیدکننده انواع روفرشی، پتوفرش و زیرسفره‌ای با نیم قرن تجربه در صنعت نساجی ایران.
             </p>
           </div>
         </div>
@@ -36,8 +35,8 @@ export default function Footer() {
           <span>فروش عمده و همکاری</span>
           <h3>برای دریافت قیمت و اطلاعات محصولات با ما در ارتباط باشید.</h3>
 
-          <Link href="/admin" className="footerButton">
-            ورود به پنل مدیریت
+          <Link href="#contact" className="footerButton">
+            ارتباط برای همکاری و سفارش
           </Link>
         </div>
       </div>

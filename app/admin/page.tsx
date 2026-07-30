@@ -1,21 +1,5 @@
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import About from "@/components/About";
-import CategorySection from "@/components/CategorySection";
-import Footer from "@/components/Footer";
+import AdminLoginClient from "@/components/AdminLoginClient";
 
-export default function Home() {
-  return (
-    <>
-      <Header />
-
-      <Hero />
-
-      <About />
-
-      <CategorySection />
-
-      <Footer />
-    </>
-  );
+export default function AdminPage() {
+  return <AdminLoginClient />;
 }

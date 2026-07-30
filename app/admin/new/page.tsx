@@ -10,6 +10,8 @@ import {
   useRef,
   useState,
 } from "react";
+import AdminAuthGate from "@/components/AdminAuthGate";
+import AdminLogoutButton from "@/components/AdminLogoutButton";
 import { supabase } from "@/lib/supabase";
 
 const collectionOptions = [
@@ -22,6 +24,16 @@ const collectionOptions = [
   "مخمل دوشانل کوبلنی",
   "تمام مخمل (پتوفرش)",
   "زیر سفره ای",
+];
+
+const weaveTypeOptions = [
+  "مخمل",
+  "ابریشم",
+  "دوشانل",
+  "دورو (دو طرف قابل استفاده)",
+  "کوبلنی",
+  "پتوفرش",
+  "زیرسفره‌ای",
 ];
 
 const sizeOptions = [
@@ -78,6 +90,25 @@ type ProductRecord = {
   is_active: boolean | null;
 };
 
+function inferWeaveType(collection: string | null | undefined, category: string | null | undefined) {
+  const collectionValue = collection?.trim() || "";
+  const categoryValue = category?.trim() || "";
+
+  if (categoryValue && categoryValue !== collectionValue) {
+    return categoryValue;
+  }
+
+  if (collectionValue.includes("دورو")) return "دورو (دو طرف قابل استفاده)";
+  if (collectionValue.includes("کوبلنی")) return "کوبلنی";
+  if (collectionValue.includes("دوشانل")) return "دوشانل";
+  if (collectionValue.includes("ابریشم")) return "ابریشم";
+  if (collectionValue.includes("پتوفرش")) return "پتوفرش";
+  if (collectionValue.includes("زیر")) return "زیرسفره‌ای";
+  if (collectionValue.includes("مخمل")) return "مخمل";
+
+  return categoryValue || "مخمل";
+}
+
 function splitMultiValue(value: string | null | undefined) {
   return value
     ? value
@@ -111,6 +142,7 @@ export default function NewProductPage() {
   const [productTitle, setProductTitle] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [yarnMaterial, setYarnMaterial] = useState("");
+  const [weaveType, setWeaveType] = useState("مخمل");
   const [weight, setWeight] = useState("");
   const [thickness, setThickness] = useState("");
   const [isActive, setIsActive] = useState(true);
@@ -193,11 +225,12 @@ export default function NewProductPage() {
 
       const mergedGallery = primaryGallery.length > 0 ? primaryGallery : fallbackGallery;
 
-      setCollection(product.collection || product.category || collectionOptions[0]);
+      setCollection(product.collection || collectionOptions[0]);
       setProductCode(product.product_code || "");
       setProductTitle(product.title || "");
       setShortDescription(product.description || "");
       setYarnMaterial(product.yarn_material || "");
+      setWeaveType(inferWeaveType(product.collection, product.category));
       setWeight(product.weight || "");
       setThickness(product.thickness || "");
       setIsActive(product.is_active !== false);
@@ -370,7 +403,7 @@ export default function NewProductPage() {
     const payload = {
       product_code: productCode.trim(),
       title: productTitle.trim(),
-      category: collection.trim(),
+      category: weaveType.trim(),
       collection: collection.trim(),
       dimensions: selectedSizes.join(" | "),
       yarn_material: yarnMaterial.trim(),
@@ -454,6 +487,7 @@ export default function NewProductPage() {
   }
 
   return (
+    <AdminAuthGate>
     <main dir="rtl" className="min-h-screen bg-[#050505] px-4 py-8 text-white">
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
@@ -465,6 +499,7 @@ export default function NewProductPage() {
           </div>
 
           <div className="flex gap-2">
+            <AdminLogoutButton className="rounded-xl border border-[#d5b466]/25 bg-[#d5b466]/10 px-4 py-2 text-xs font-bold text-[#f1d799] transition hover:border-[#d5b466]/60 hover:bg-[#d5b466]/15" />
             <Link
               href="/admin-v2"
               className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2 text-xs font-bold text-white/60"
@@ -502,6 +537,21 @@ export default function NewProductPage() {
                 <FormInput label="کد محصول" placeholder="YA-350" value={productCode} onChange={setProductCode} />
                 <FormInput label="نام محصول" placeholder="مثلاً مخمل دوشانل دورو" value={productTitle} onChange={setProductTitle} />
                 <FormInput label="جنس نخ" placeholder="پلی استر + شانل" value={yarnMaterial} onChange={setYarnMaterial} />
+                <label className="block">
+                  <span className="mb-2 block text-[11px] font-bold text-white/55">نوع بافت</span>
+                  <input
+                    list="weave-type-options"
+                    value={weaveType}
+                    onChange={(event) => setWeaveType(event.target.value)}
+                    placeholder="مثلاً دورو (دو طرف قابل استفاده)"
+                    className="min-h-11 w-full rounded-xl border border-white/10 bg-black/40 px-3 text-xs outline-none focus:border-[#d5b466]/60"
+                  />
+                  <datalist id="weave-type-options">
+                    {weaveTypeOptions.map((item) => (
+                      <option key={item} value={item} />
+                    ))}
+                  </datalist>
+                </label>
                 <FormInput label="وزن" placeholder="۷ کیلوگرم" value={weight} onChange={setWeight} />
                 <FormInput label="ضخامت" placeholder="۸ میلی‌متر" value={thickness} onChange={setThickness} />
               </div>
@@ -809,6 +859,7 @@ export default function NewProductPage() {
         </form>
       </div>
     </main>
+    </AdminAuthGate>
   );
 }
 
