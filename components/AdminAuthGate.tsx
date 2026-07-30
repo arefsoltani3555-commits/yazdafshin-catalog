@@ -15,11 +15,21 @@ export default function AdminAuthGate({ children }: AdminAuthGateProps) {
   useEffect(() => {
     let mounted = true;
 
-    async function redirectToLogin() {
-      await supabase.auth.signOut();
-      if (!mounted) return;
-      setStatus("unauthenticated");
+    function goToLogin() {
       router.replace("/admin");
+
+      if (typeof window !== "undefined") {
+        window.location.replace("/admin");
+      }
+    }
+
+    async function redirectToLogin() {
+      if (!mounted) return;
+
+      setStatus("unauthenticated");
+      goToLogin();
+
+      await supabase.auth.signOut();
     }
 
     async function checkSession() {
@@ -52,12 +62,25 @@ export default function AdminAuthGate({ children }: AdminAuthGateProps) {
         setStatus("authenticated");
       } else {
         setStatus("unauthenticated");
-        router.replace("/admin");
+        goToLogin();
       }
     });
 
+    const fallbackTimer = window.setTimeout(() => {
+      if (!mounted) return;
+      setStatus((current) => {
+        if (current === "loading") {
+          goToLogin();
+          return "unauthenticated";
+        }
+
+        return current;
+      });
+    }, 2500);
+
     return () => {
       mounted = false;
+      window.clearTimeout(fallbackTimer);
       subscription.unsubscribe();
     };
   }, [router]);
